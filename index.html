@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Valentine</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+
+            /* Multi-layer cinematic gradient */
+
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255, 0, 90, .18), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 140, 255, .15), transparent 30%),
+                radial-gradient(circle at 50% 85%, rgba(255, 40, 120, .12), transparent 35%),
+                linear-gradient(160deg, #02020a, #070b1a, #0d1026);
+
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 160%;
+            height: 160%;
+            background: radial-gradient(circle,
+                    rgba(255, 255, 255, .06),
+                    transparent 60%);
+            animation: slowMove 18s linear infinite;
+        }
+
+        @keyframes slowMove {
+            from {
+                transform: translate(-10%, -10%);
+            }
+
+            to {
+                transform: translate(10%, 10%);
+            }
+        }
+
+
+        /* Opening Heart */
+
+        .openHeart {
+            font-size: 115px;
+            cursor: pointer;
+            animation: beat 1.4s infinite;
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        /* Card */
+
+        .card {
+            position: absolute;
+            padding: 65px;
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(22px);
+            border-radius: 28px;
+
+            box-shadow: 0 40px 120px rgba(0, 0, 0, .8);
+
+            opacity: 0;
+            transform: scale(.7);
+            transition: .7s;
+            pointer-events: none;
+        }
+
+        .show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* BALLOON */
+
+        .balloon {
+            position: absolute;
+            bottom: -160px;
+            width: 90px;
+            cursor: pointer;
+
+            animation: floatUp linear forwards;
+
+            filter:
+                drop-shadow(0 25px 35px rgba(0, 0, 0, .45)) blur(.2px);
+
+            transition: .25s;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-140vh);
+            }
+        }
+
+        /* POP */
+
+        .pop {
+            animation: shrink .28s forwards;
+        }
+
+        @keyframes shrink {
+            to {
+                transform: scale(.05);
+                opacity: 0;
+            }
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 15px 42px;
+            border-radius: 40px;
+            border: none;
+            background: #8b1e3f;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: .3s;
+        }
+
+        button:hover {
+            transform: scale(1.08);
+            background: #a3264d;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -180px;
+            width: 95px;
+            cursor: pointer;
+
+            animation: floatUp linear forwards;
+
+            filter:
+                drop-shadow(0 25px 35px rgba(0, 0, 0, .45));
+
+            transition: transform .25s;
+        }
+
+        .balloon {
+            object-fit: contain;
+            z-index:2;
+
+        }
+
+        /* FLOATING HEART EMOJIS */
+
+        .emojiHeart {
+            position: absolute;
+            bottom: -50px;
+            pointer-events: none;
+            /* prevents blocking clicks */
+
+            animation: heartFloat linear forwards;
+            z-index:0;
+
+            opacity: .85;
+
+            /* soft glow */
+            filter: drop-shadow(0 6px 12px rgba(255, 80, 120, .35));
+        }
+
+        @keyframes heartFloat {
+
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: .9;
+            }
+
+            100% {
+                transform: translateY(-120vh) translateX(60px);
+                opacity: 0;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="openHeart" id="heart">❤️</div>
+
+    <div class="card" id="card">
+
+        <h1>Happy Valentine’s Day</h1>
+
+        <p style="margin-top:14px;">
+            Will you be mine forever?
+        </p>
+
+        <button id="yesBtn">YES</button>
+
+    </div>
+
+    <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-balloon-pop-1984.mp3"></audio>
+
+    <script>
+
+        /* OPEN */
+
+        heart.onclick = () => {
+            heart.style.display = "none";
+            card.classList.add("show");
+        };
+
+        /* PREMIUM COLORS */
+        function randomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsl(${hue}, 75%, 60%)`;
+        }
+
+
+        /* SVG BALLOON GENERATOR */
+        const balloonImages = [
+            "heart1.png",
+            "heart2.png",
+        ];
+
+
+        /* START FLOAT */
+
+        yesBtn.onclick = () => {
+
+            card.style.display = "none";
+
+            setInterval(createBalloon, 1200);
+            setInterval(createEmojiHeart, 500);
+
+
+        };
+        function createEmojiHeart() {
+
+            let heart = document.createElement("div");
+
+            heart.className = "emojiHeart";
+
+            heart.innerText = "❤️";
+
+            /* random horizontal start */
+            heart.style.left = Math.random() * 100 + "vw";
+
+            /* depth illusion */
+            let size = 14 + Math.random() * 26;
+            heart.style.fontSize = size + "px";
+
+            /* slower = more premium */
+            heart.style.animationDuration = (8 + Math.random() * 6) + "s";
+
+            /* subtle sideways drift */
+            heart.style.transform = `translateX(${Math.random() * 80 - 40}px)`;
+
+            document.body.appendChild(heart);
+
+            /* cleanup */
+            setTimeout(() => heart.remove(), 14000);
+
+        }
+
+
+        function createBalloon() {
+
+            let img = document.createElement("img");
+
+            img.src = balloonImages[Math.floor(Math.random() * balloonImages.length)];
+
+            img.className = "balloon";
+
+            img.style.left = Math.random() * 92 + "vw";
+
+            /* slower = premium */
+            img.style.animationDuration = (10 + Math.random() * 6) + "s";
+
+            /* depth illusion */
+            img.style.opacity = 0.75 + Math.random() * 0.25;
+            img.style.transform = `scale(${0.8 + Math.random() * 0.5})`;
+
+            /* POP */
+
+            img.onclick = () => {
+
+                popSound.currentTime = 0;
+                popSound.play();
+
+                img.style.transition = "0.25s";
+                img.style.transform += " scale(0)";
+                img.style.opacity = "0";
+
+                setTimeout(() => img.remove(), 250);
+            };
+
+            document.body.appendChild(img);
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
