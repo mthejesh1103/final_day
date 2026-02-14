@@ -1,348 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Valentine</title>
+<title>Valentine</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300&display=swap"
-        rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            color: white;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-            /* Multi-layer cinematic gradient */
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Poppins',sans-serif;
+    color:white;
 
-            background:
-                radial-gradient(circle at 15% 20%, rgba(255, 0, 90, .18), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 140, 255, .15), transparent 30%),
-                radial-gradient(circle at 50% 85%, rgba(255, 40, 120, .12), transparent 35%),
-                linear-gradient(160deg, #02020a, #070b1a, #0d1026);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,0,90,.18), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0,140,255,.15), transparent 30%),
+        radial-gradient(circle at 50% 85%, rgba(255,40,120,.12), transparent 35%),
+        linear-gradient(160deg,#02020a,#070b1a,#0d1026);
+}
 
-        }
+/* Opening heart */
 
-        body::before {
-            content: '';
-            position: absolute;
-            width: 160%;
-            height: 160%;
-            background: radial-gradient(circle,
-                    rgba(255, 255, 255, .06),
-                    transparent 60%);
-            animation: slowMove 18s linear infinite;
-        }
+.openHeart{
+    font-size:110px;
+    cursor:pointer;
+    animation:beat 1.4s infinite;
+}
 
-        @keyframes slowMove {
-            from {
-                transform: translate(-10%, -10%);
-            }
+@keyframes beat{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.12); }
+}
 
-            to {
-                transform: translate(10%, 10%);
-            }
-        }
+/* Card */
 
+.card{
+    position:absolute;
+    padding:60px;
+    width:90%;
+    max-width:650px;
+    text-align:center;
 
-        /* Opening Heart */
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(10px);
 
-        .openHeart {
-            font-size: 115px;
-            cursor: pointer;
-            animation: beat 1.4s infinite;
-        }
+    border-radius:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
 
-        @keyframes beat {
+    opacity:0;
+    transform:scale(.7);
+    transition:.6s;
+    pointer-events:none;
+}
 
-            0%,
-            100% {
-                transform: scale(1);
-            }
+.show{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+}
 
-            50% {
-                transform: scale(1.12);
-            }
-        }
+/* Celebration mode */
 
-        /* Card */
+.celebrate{
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) scale(1.15);
+    background:transparent;
+    backdrop-filter:none;
+    box-shadow:none;
+}
 
-        .card {
-            position: absolute;
-            padding: 65px;
-            width: 90%;
-            max-width: 650px;
-            text-align: center;
+.celebrate h1{
+    font-size:4rem;
+    letter-spacing:2px;
+    text-shadow:0 10px 40px rgba(255,80,120,.35);
+}
 
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(22px);
-            border-radius: 28px;
+h1{
+    font-family:'Playfair Display',serif;
+    font-size:3rem;
+}
 
-            box-shadow: 0 40px 120px rgba(0, 0, 0, .8);
+/* Button */
 
-            opacity: 0;
-            transform: scale(.7);
-            transition: .7s;
-            pointer-events: none;
-        }
+button{
+    margin-top:25px;
+    padding:15px 42px;
+    border-radius:40px;
+    border:none;
+    background:#8b1e3f;
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+    transition:.25s;
+}
 
-        .show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
+button:hover{
+    transform:scale(1.08);
+    background:#a3264d;
+}
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.1rem;
-            letter-spacing: 1px;
-        }
+/* Balloon */
 
-        /* BALLOON */
+.balloon{
+    position:absolute;
+    bottom:-180px;
+    width:90px;
+    cursor:pointer;
+    animation:floatUp linear forwards;
 
-        .balloon {
-            position: absolute;
-            bottom: -160px;
-            width: 90px;
-            cursor: pointer;
+    filter:drop-shadow(0 15px 20px rgba(0,0,0,.35));
+    object-fit:contain;
+    z-index:1;
 
-            animation: floatUp linear forwards;
+    will-change:transform;
+}
 
-            filter:
-                drop-shadow(0 25px 35px rgba(0, 0, 0, .45)) blur(.2px);
+@keyframes floatUp{
+    from{ transform:translateY(0); }
+    to{ transform:translateY(-140vh); }
+}
 
-            transition: .25s;
-        }
-
-        @keyframes floatUp {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(-140vh);
-            }
-        }
-
-        /* POP */
-
-        .pop {
-            animation: shrink .28s forwards;
-        }
-
-        @keyframes shrink {
-            to {
-                transform: scale(.05);
-                opacity: 0;
-            }
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 15px 42px;
-            border-radius: 40px;
-            border: none;
-            background: #8b1e3f;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: .3s;
-        }
-
-        button:hover {
-            transform: scale(1.08);
-            background: #a3264d;
-        }
-
-        .balloon {
-            position: absolute;
-            bottom: -180px;
-            width: 95px;
-            cursor: pointer;
-
-            animation: floatUp linear forwards;
-
-            filter:
-                drop-shadow(0 25px 35px rgba(0, 0, 0, .45));
-
-            transition: transform .25s;
-        }
-
-        .balloon {
-            object-fit: contain;
-            z-index:2;
-
-        }
-
-        /* FLOATING HEART EMOJIS */
-
-        .emojiHeart {
-            position: absolute;
-            bottom: -50px;
-            pointer-events: none;
-            /* prevents blocking clicks */
-
-            animation: heartFloat linear forwards;
-            z-index:0;
-
-            opacity: .85;
-
-            /* soft glow */
-            filter: drop-shadow(0 6px 12px rgba(255, 80, 120, .35));
-        }
-
-        @keyframes heartFloat {
-
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: .9;
-            }
-
-            100% {
-                transform: translateY(-120vh) translateX(60px);
-                opacity: 0;
-            }
-
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
-    <div class="openHeart" id="heart">❤️</div>
+<div class="openHeart" id="heart">❤️</div>
 
-    <div class="card" id="card">
+<div class="card" id="card">
+    <h1 id="title">Happy Valentine’s Day</h1>
 
-        <h1>Happy Valentine’s Day</h1>
-
+    <div id="question">
         <p style="margin-top:14px;">
             Will you be mine forever?
         </p>
 
         <button id="yesBtn">YES</button>
-
     </div>
+</div>
 
-    <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-balloon-pop-1984.mp3"></audio>
+<script>
 
-    <script>
+/* Limit balloons for smooth FPS */
 
-        /* OPEN */
+const MAX_BALLOONS = 10;
 
-        heart.onclick = () => {
-            heart.style.display = "none";
-            card.classList.add("show");
-        };
+const balloonImages = [
+    "heart1.png",
+    "heart2.png"
+];
 
-        /* PREMIUM COLORS */
-        function randomColor() {
-            const hue = Math.floor(Math.random() * 360);
-            return `hsl(${hue}, 75%, 60%)`;
-        }
+/* Open card */
 
+heart.onclick = () => {
+    heart.style.display = "none";
+    card.classList.add("show");
+};
 
-        /* SVG BALLOON GENERATOR */
-        const balloonImages = [
-            "heart1.png",
-            "heart2.png",
-        ];
+/* YES clicked */
 
+yesBtn.onclick = () => {
 
-        /* START FLOAT */
+    document.getElementById("question").style.display = "none";
 
-        yesBtn.onclick = () => {
+    card.classList.add("celebrate");
 
-            card.style.display = "none";
+    spawnBalloon();
+};
 
-            setInterval(createBalloon, 1200);
-            setInterval(createEmojiHeart, 500);
+/* Recursive spawning (better than setInterval) */
 
+function spawnBalloon(){
 
-        };
-        function createEmojiHeart() {
+    if(document.querySelectorAll(".balloon").length < MAX_BALLOONS){
+        createBalloon();
+    }
 
-            let heart = document.createElement("div");
+    setTimeout(spawnBalloon, 1800);
+}
 
-            heart.className = "emojiHeart";
+/* Create balloon */
 
-            heart.innerText = "❤️";
+function createBalloon(){
 
-            /* random horizontal start */
-            heart.style.left = Math.random() * 100 + "vw";
+    let img = document.createElement("img");
 
-            /* depth illusion */
-            let size = 14 + Math.random() * 26;
-            heart.style.fontSize = size + "px";
+    img.src = balloonImages[Math.floor(Math.random()*balloonImages.length)];
+    img.className = "balloon";
 
-            /* slower = more premium */
-            heart.style.animationDuration = (8 + Math.random() * 6) + "s";
+    img.style.left = Math.random()*92 + "vw";
+    img.style.animationDuration = (10 + Math.random()*6) + "s";
 
-            /* subtle sideways drift */
-            heart.style.transform = `translateX(${Math.random() * 80 - 40}px)`;
+    img.style.opacity = 0.75 + Math.random()*0.25;
+    img.style.transform = `scale(${0.8 + Math.random()*0.4})`;
 
-            document.body.appendChild(heart);
+    img.onclick = () => {
 
-            /* cleanup */
-            setTimeout(() => heart.remove(), 14000);
+        img.style.transform += " scale(0)";
+        img.style.opacity = "0";
 
-        }
+        setTimeout(()=>img.remove(),250);
+    };
 
+    document.body.appendChild(img);
+}
 
-        function createBalloon() {
-
-            let img = document.createElement("img");
-
-            img.src = balloonImages[Math.floor(Math.random() * balloonImages.length)];
-
-            img.className = "balloon";
-
-            img.style.left = Math.random() * 92 + "vw";
-
-            /* slower = premium */
-            img.style.animationDuration = (10 + Math.random() * 6) + "s";
-
-            /* depth illusion */
-            img.style.opacity = 0.75 + Math.random() * 0.25;
-            img.style.transform = `scale(${0.8 + Math.random() * 0.5})`;
-
-            /* POP */
-
-            img.onclick = () => {
-
-                popSound.currentTime = 0;
-                popSound.play();
-
-                img.style.transition = "0.25s";
-                img.style.transform += " scale(0)";
-                img.style.opacity = "0";
-
-                setTimeout(() => img.remove(), 250);
-            };
-
-            document.body.appendChild(img);
-
-        }
-
-
-    </script>
+</script>
 
 </body>
-
 </html>
